@@ -17,10 +17,10 @@ restart:
 	docker compose restart
 
 bash:
-	docker compose exec app bash
+	docker exec -it ubereats_react_rails-backend-1 bash
 
 attach:
-	docker attach tokumo_back-app-1
+	docker attach ubereats_react_rails-backend-1
 
 pull:
 	git pull origin main
