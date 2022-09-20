@@ -27,3 +27,6 @@ pull:
 
 push:
 	git push origin HEAD
+
+reset:
+	rails db:migrate:reset db:seed
