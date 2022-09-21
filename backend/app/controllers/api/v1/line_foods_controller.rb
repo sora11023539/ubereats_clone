@@ -1,6 +1,22 @@
 module Api
   module V1
     class LineFoodsController < ApplicationController
+      def index
+        line_foods = LineFood.active
+
+        if line_foods.exists?
+          render json: {
+            line_food_ids: line_foods.map { |line_food| line_food.id },
+            retaurant: line_foods.first.restaurant,
+            count: line_foods.sum{ |line_food| line_food[:count] },
+            # total_amount = food.price * count
+            amount: line_foods.sum { |line_food| line_food.toral_amount }
+          },status: :ok
+        else
+          render json: {},status: :no_content
+        end
+      end
+
       def create
         # If you already have a provisional order at another store
         if LineFood.active.other_restaurant(ordered_food.restaurant.id).exists?
