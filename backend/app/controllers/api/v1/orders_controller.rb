@@ -2,7 +2,6 @@ module Api
   module V1
     class OrdersController < ApplicationController
       def create
-        posted_line_foods = LineFood.where(id: params[:line_food_ids])
         order = Order.new(
           total_price: total_price(posted_line_foods)
         )
@@ -17,7 +16,11 @@ module Api
       private
 
       def total_price(posted_line_foods)
-        posted_line_foods.sum { |line_food| line_food.total_amount } + posted_line_foods.restaurant.fee
+        posted_line_foods.sum { |line_food| line_food.total_amount } + posted_line_foods.first.restaurant.fee
+      end
+
+      def posted_line_foods
+        @posted_line_foods ||= LineFood.where(id: params[:line_food_ids])
       end
     end
   end
