@@ -4,8 +4,6 @@ module Api
       before_action :ordered_food, only: %i[create update]
 
       def index
-        line_foods = LineFood.active
-
         if line_foods.exists?
           render json: {
             line_food_ids: line_foods.map { |line_food| line_food.id },
@@ -56,6 +54,10 @@ module Api
       end
 
       private
+
+      def line_foods
+        @line_foods = LineFood.active
+      end
 
       def ordered_food
         @ordered_food ||= Food.find(params[:food_id])
