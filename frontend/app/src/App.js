@@ -12,9 +12,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/restaurants" element={<Restaurants />} />
-        <Route path="/foods" element={<Foods />} />
+        <Route path="/restaurants/:restaurantsId/foods" element={<Foods />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/restaurants/:restaurantsId/foods" render={({ match }) => <Foods match={match} />} />
       </Routes>
     </Router>
   );

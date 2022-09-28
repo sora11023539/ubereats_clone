@@ -1,12 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { fetchFoods } from '../apis/foods';
+import { useParams } from 'react-router-dom';
 
-const Foods = ({ match }) => {
-  return (
-    <Fragment>
-      フード一覧
-      <p>restaurantIdは {match.params.restaurantId} です</p>
-    </Fragment>
-  );
+const Foods = () => {
+  let { restaurantsId } = useParams();
+  useEffect(() => {
+    fetchFoods(restaurantsId).then((data) => console.log(data));
+  }, [restaurantsId]);
+
+  return <Fragment>フード一覧</Fragment>;
 };
 
 export default Foods;
