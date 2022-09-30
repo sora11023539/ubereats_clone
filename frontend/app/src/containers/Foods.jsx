@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect, useReducer } from 'react';
+import React, { Fragment, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
-import Skeleton from '@material-ui/lab/Skeleton';
 
 // reducers
 // A as B = Can be reference A as B
@@ -15,10 +14,12 @@ import MainLogo from '../images/logo.png';
 import FoodImage from '../images/food-image.jpg';
 
 // constants
-import { REQUEST_STATE } from '../constants';
-
-// style
 import { COLORS } from '../style_constants';
+import { REQUEST_STATE } from '../constants';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { FoodOrderDialog } from "../components/FoodOrderDialog";
+
+// components
 import { LocalMallIcon } from '../components/icons';
 import { FoodWrapper } from '../components/FoodWrapper';
 
@@ -53,6 +54,14 @@ const ItemWrapper = styled.div`
 
 const Foods = () => {
   let { restaurantsId } = useParams();
+
+  const initialState = {
+    isOpenOrderDialog: false,
+    selectedFood: null,
+    selectedFoodCount: 1,
+  }
+  const [state, setState] = useState(initialState);
+
   const [foodsState, dispatch] = useReducer(foodsReducer, foodsInitialState);
 
   useEffect(() => {
@@ -91,11 +100,32 @@ const Foods = () => {
         :
           foodsState.foodsList.map(food =>
             <ItemWrapper key={food.id}>
-              <FoodWrapper food={food} onClickFoodWrapper={(food) => console.log(food)} imageUrl={FoodImage} />
+              <FoodWrapper
+                food={food}
+                onClickFoodWrapper={(food) => setState({
+                    ...state,
+                    isOpenOrderDialog: true,
+                    selectedFood: food,
+                  })
+                }
+                imageUrl={FoodImage}
+              />
             </ItemWrapper>
           )
         }
       </FoodsList>
+      {
+        // && = Run if true
+        state.isOpenOrderDialog &&
+          <FoodOrderDialog
+            food={state.selectedFood}
+            isOpen={state.isOpenOrderDialog}
+            onClose={() => setState({
+              ...state,
+              isOpenOrderDialog: false,
+            })}
+          />
+      }
     </Fragment>
   );
 };
