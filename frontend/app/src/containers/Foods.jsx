@@ -52,6 +52,10 @@ const ItemWrapper = styled.div`
   margin: 16px;
 `;
 
+const submitOrder = () => {
+  console.log('Pushed submit button!');
+}
+
 const Foods = () => {
   let { restaurantsId } = useParams();
 
@@ -120,9 +124,21 @@ const Foods = () => {
           <FoodOrderDialog
             food={state.selectedFood}
             isOpen={state.isOpenOrderDialog}
+            countNumber={state.selectedFoodCount}
+            onClickCountUp={() => setState({
+              ...state,
+              selectedFoodCount: state.selectedFoodCount + 1,
+            })}
+            onClickCountDown={() => setState({
+              ...state,
+              selectedFoodCount: state.selectedFoodCount - 1,
+            })}
+            onClickOrder={() => submitOrder()}
             onClose={() => setState({
               ...state,
               isOpenOrderDialog: false,
+              selectedFood: nil,
+              selectedFoodCount: 1,
             })}
           />
       }

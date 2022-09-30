@@ -3,7 +3,7 @@ import React from 'react'
 // style
 import { RoundButton } from "../shared_style";
 
-export const CountDownButton = ({ onclick, isDisabled }) => {
+export const CountDownButton = ({ onClick, isDisabled }) => {
   return (
     <RoundButton onClick={onClick} disabled={isDisabled}>
       -
