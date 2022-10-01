@@ -7,10 +7,10 @@ module Api
         if line_foods.exists?
           render json: {
             line_food_ids: line_foods.map { |line_food| line_food.id },
-            retaurant: line_foods.first.restaurant,
+            restaurant: line_foods.first.restaurant,
             count: line_foods.sum{ |line_food| line_food[:count] },
             # total_amount = food.price * count
-            amount: line_foods.sum { |line_food| line_food.toral_amount }
+            amount: line_foods.sum { |line_food| line_food.total_amount }
           },status: :ok
         else
           render json: {},status: :no_content
